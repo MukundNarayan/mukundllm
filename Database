@@ -1,0 +1,2209 @@
+USE [master]
+GO
+/****** Object:  Database [EmployeeManagementDB]    Script Date: 08-07-2025 19:18:45 ******/
+CREATE DATABASE [EmployeeManagementDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'EmployeeManagementDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\EmployeeManagementDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'EmployeeManagementDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\EmployeeManagementDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [EmployeeManagementDB] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [EmployeeManagementDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [EmployeeManagementDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET RECOVERY FULL 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET  MULTI_USER 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [EmployeeManagementDB] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [EmployeeManagementDB] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'EmployeeManagementDB', N'ON'
+GO
+ALTER DATABASE [EmployeeManagementDB] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [EmployeeManagementDB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [EmployeeManagementDB]
+GO
+/****** Object:  Table [dbo].[Assets]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Assets](
+	[AssetID] [int] IDENTITY(1,1) NOT NULL,
+	[AssetName] [nvarchar](100) NULL,
+	[AssetType] [nvarchar](50) NULL,
+	[PurchaseDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AssetID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Attendance]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Attendance](
+	[AttendanceID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[Date] [date] NULL,
+	[CheckIn] [time](7) NULL,
+	[CheckOut] [time](7) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AttendanceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Benefits]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Benefits](
+	[BenefitID] [int] IDENTITY(1,1) NOT NULL,
+	[BenefitName] [nvarchar](100) NULL,
+	[Description] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[BenefitID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Demotions]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Demotions](
+	[DemotionID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[PreviousJobID] [int] NULL,
+	[NewJobID] [int] NULL,
+	[DemotionDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DemotionID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Departments]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Departments](
+	[DepartmentID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DepartmentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EmergencyContacts]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EmergencyContacts](
+	[ContactID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[Name] [nvarchar](100) NULL,
+	[Relationship] [nvarchar](50) NULL,
+	[Phone] [nvarchar](20) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ContactID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EmployeeAssets]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EmployeeAssets](
+	[EmployeeID] [int] NOT NULL,
+	[AssetID] [int] NOT NULL,
+	[AllocationDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC,
+	[AssetID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EmployeeBenefits]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EmployeeBenefits](
+	[EmployeeID] [int] NOT NULL,
+	[BenefitID] [int] NOT NULL,
+	[AssignedDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC,
+	[BenefitID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EmployeeProjects]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EmployeeProjects](
+	[EmployeeID] [int] NOT NULL,
+	[ProjectID] [int] NOT NULL,
+	[AssignedDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC,
+	[ProjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employees]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employees](
+	[EmployeeID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](100) NULL,
+	[LastName] [nvarchar](100) NULL,
+	[Email] [nvarchar](100) NULL,
+	[Phone] [nvarchar](20) NULL,
+	[HireDate] [date] NULL,
+	[DepartmentID] [int] NULL,
+	[JobID] [int] NULL,
+	[ManagerID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EmployeeSkills]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EmployeeSkills](
+	[EmployeeID] [int] NOT NULL,
+	[SkillID] [int] NOT NULL,
+	[ProficiencyLevel] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC,
+	[SkillID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EmployeeTrainings]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EmployeeTrainings](
+	[EmployeeID] [int] NOT NULL,
+	[TrainingID] [int] NOT NULL,
+	[CompletionStatus] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC,
+	[TrainingID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Jobs]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Jobs](
+	[JobID] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](100) NOT NULL,
+	[MinSalary] [decimal](10, 2) NULL,
+	[MaxSalary] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[JobID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Leaves]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Leaves](
+	[LeaveID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[LeaveTypeID] [int] NULL,
+	[StartDate] [date] NULL,
+	[EndDate] [date] NULL,
+	[Reason] [nvarchar](255) NULL,
+	[Status] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LeaveID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LeaveTypes]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LeaveTypes](
+	[LeaveTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[LeaveName] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LeaveTypeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Projects]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Projects](
+	[ProjectID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NULL,
+	[StartDate] [date] NULL,
+	[EndDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Promotions]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Promotions](
+	[PromotionID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[PreviousJobID] [int] NULL,
+	[NewJobID] [int] NULL,
+	[PromotionDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PromotionID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Resignations]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Resignations](
+	[ResignationID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[ResignationDate] [date] NULL,
+	[Reason] [nvarchar](255) NULL,
+	[ApprovedBy] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ResignationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ReviewRatings]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ReviewRatings](
+	[RatingID] [int] IDENTITY(1,1) NOT NULL,
+	[RatingName] [nvarchar](50) NULL,
+	[Description] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[RatingID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Reviews]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Reviews](
+	[ReviewID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[ReviewerID] [int] NULL,
+	[ReviewDate] [date] NULL,
+	[Comments] [nvarchar](255) NULL,
+	[RatingID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ReviewID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Salaries]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Salaries](
+	[SalaryID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[Amount] [decimal](10, 2) NULL,
+	[EffectiveFrom] [date] NULL,
+	[EffectiveTo] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[SalaryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Skills]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Skills](
+	[SkillID] [int] IDENTITY(1,1) NOT NULL,
+	[SkillName] [nvarchar](100) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[SkillID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Trainings]    Script Date: 08-07-2025 19:18:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Trainings](
+	[TrainingID] [int] IDENTITY(1,1) NOT NULL,
+	[TrainingName] [nvarchar](100) NULL,
+	[Description] [nvarchar](255) NULL,
+	[StartDate] [date] NULL,
+	[EndDate] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TrainingID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Assets] ON 
+GO
+INSERT [dbo].[Assets] ([AssetID], [AssetName], [AssetType], [PurchaseDate]) VALUES (1, N'Laptop', N'Office', CAST(N'2025-01-16' AS Date))
+GO
+INSERT [dbo].[Assets] ([AssetID], [AssetName], [AssetType], [PurchaseDate]) VALUES (2, N'ID Card', N'Office', CAST(N'2025-05-15' AS Date))
+GO
+INSERT [dbo].[Assets] ([AssetID], [AssetName], [AssetType], [PurchaseDate]) VALUES (3, N'Phone', N'Office', CAST(N'2024-12-27' AS Date))
+GO
+INSERT [dbo].[Assets] ([AssetID], [AssetName], [AssetType], [PurchaseDate]) VALUES (4, N'Chair', N'Office', CAST(N'2025-03-24' AS Date))
+GO
+INSERT [dbo].[Assets] ([AssetID], [AssetName], [AssetType], [PurchaseDate]) VALUES (5, N'Desk', N'Office', CAST(N'2024-10-01' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Assets] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Attendance] ON 
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (1, 1, CAST(N'2025-06-29' AS Date), CAST(N'08:54:00' AS Time), CAST(N'18:01:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (2, 1, CAST(N'2025-07-03' AS Date), CAST(N'08:25:00' AS Time), CAST(N'18:41:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (3, 1, CAST(N'2025-06-28' AS Date), CAST(N'08:24:00' AS Time), CAST(N'17:45:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (4, 2, CAST(N'2025-07-05' AS Date), CAST(N'08:17:00' AS Time), CAST(N'17:18:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (5, 2, CAST(N'2025-06-30' AS Date), CAST(N'08:18:00' AS Time), CAST(N'18:55:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (6, 2, CAST(N'2025-07-06' AS Date), CAST(N'09:27:00' AS Time), CAST(N'17:35:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (7, 3, CAST(N'2025-07-06' AS Date), CAST(N'09:54:00' AS Time), CAST(N'18:57:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (8, 3, CAST(N'2025-06-30' AS Date), CAST(N'09:12:00' AS Time), CAST(N'18:20:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (9, 3, CAST(N'2025-07-06' AS Date), CAST(N'08:34:00' AS Time), CAST(N'18:10:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (10, 4, CAST(N'2025-07-04' AS Date), CAST(N'09:25:00' AS Time), CAST(N'18:54:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (11, 4, CAST(N'2025-06-27' AS Date), CAST(N'08:43:00' AS Time), CAST(N'17:44:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (12, 4, CAST(N'2025-07-03' AS Date), CAST(N'09:24:00' AS Time), CAST(N'17:20:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (13, 5, CAST(N'2025-07-05' AS Date), CAST(N'09:56:00' AS Time), CAST(N'17:55:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (14, 5, CAST(N'2025-06-27' AS Date), CAST(N'09:09:00' AS Time), CAST(N'17:42:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (15, 5, CAST(N'2025-07-04' AS Date), CAST(N'08:54:00' AS Time), CAST(N'17:52:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (16, 6, CAST(N'2025-06-30' AS Date), CAST(N'09:27:00' AS Time), CAST(N'18:37:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (17, 6, CAST(N'2025-07-01' AS Date), CAST(N'09:40:00' AS Time), CAST(N'17:44:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (18, 6, CAST(N'2025-06-30' AS Date), CAST(N'08:39:00' AS Time), CAST(N'18:25:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (19, 7, CAST(N'2025-07-02' AS Date), CAST(N'09:24:00' AS Time), CAST(N'17:36:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (20, 7, CAST(N'2025-06-29' AS Date), CAST(N'09:10:00' AS Time), CAST(N'17:26:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (21, 7, CAST(N'2025-07-01' AS Date), CAST(N'08:51:00' AS Time), CAST(N'18:19:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (22, 8, CAST(N'2025-06-30' AS Date), CAST(N'09:33:00' AS Time), CAST(N'18:41:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (23, 8, CAST(N'2025-07-03' AS Date), CAST(N'08:25:00' AS Time), CAST(N'17:01:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (24, 8, CAST(N'2025-07-06' AS Date), CAST(N'09:03:00' AS Time), CAST(N'17:55:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (25, 9, CAST(N'2025-07-04' AS Date), CAST(N'08:35:00' AS Time), CAST(N'17:05:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (26, 9, CAST(N'2025-06-29' AS Date), CAST(N'09:01:00' AS Time), CAST(N'18:42:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (27, 9, CAST(N'2025-06-28' AS Date), CAST(N'08:52:00' AS Time), CAST(N'18:08:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (28, 10, CAST(N'2025-07-01' AS Date), CAST(N'09:30:00' AS Time), CAST(N'17:44:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (29, 10, CAST(N'2025-07-04' AS Date), CAST(N'08:13:00' AS Time), CAST(N'17:13:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (30, 10, CAST(N'2025-07-01' AS Date), CAST(N'08:39:00' AS Time), CAST(N'18:50:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (31, 11, CAST(N'2025-07-04' AS Date), CAST(N'09:17:00' AS Time), CAST(N'18:11:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (32, 11, CAST(N'2025-07-06' AS Date), CAST(N'09:12:00' AS Time), CAST(N'17:19:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (33, 11, CAST(N'2025-06-28' AS Date), CAST(N'09:54:00' AS Time), CAST(N'18:17:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (34, 12, CAST(N'2025-07-04' AS Date), CAST(N'09:22:00' AS Time), CAST(N'17:10:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (35, 12, CAST(N'2025-06-30' AS Date), CAST(N'09:42:00' AS Time), CAST(N'18:00:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (36, 12, CAST(N'2025-06-30' AS Date), CAST(N'08:07:00' AS Time), CAST(N'18:44:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (37, 13, CAST(N'2025-06-28' AS Date), CAST(N'09:07:00' AS Time), CAST(N'18:20:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (38, 13, CAST(N'2025-06-28' AS Date), CAST(N'09:57:00' AS Time), CAST(N'17:26:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (39, 13, CAST(N'2025-06-30' AS Date), CAST(N'08:39:00' AS Time), CAST(N'18:24:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (40, 14, CAST(N'2025-06-27' AS Date), CAST(N'09:33:00' AS Time), CAST(N'18:57:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (41, 14, CAST(N'2025-07-03' AS Date), CAST(N'08:19:00' AS Time), CAST(N'18:35:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (42, 14, CAST(N'2025-07-04' AS Date), CAST(N'08:22:00' AS Time), CAST(N'18:12:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (43, 15, CAST(N'2025-07-05' AS Date), CAST(N'09:29:00' AS Time), CAST(N'18:47:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (44, 15, CAST(N'2025-06-30' AS Date), CAST(N'08:50:00' AS Time), CAST(N'18:39:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (45, 15, CAST(N'2025-06-29' AS Date), CAST(N'09:58:00' AS Time), CAST(N'17:16:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (46, 16, CAST(N'2025-07-05' AS Date), CAST(N'08:59:00' AS Time), CAST(N'18:34:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (47, 16, CAST(N'2025-06-27' AS Date), CAST(N'08:40:00' AS Time), CAST(N'18:51:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (48, 16, CAST(N'2025-07-04' AS Date), CAST(N'08:26:00' AS Time), CAST(N'18:35:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (49, 17, CAST(N'2025-07-01' AS Date), CAST(N'08:44:00' AS Time), CAST(N'17:32:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (50, 17, CAST(N'2025-06-27' AS Date), CAST(N'08:37:00' AS Time), CAST(N'17:01:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (51, 17, CAST(N'2025-07-06' AS Date), CAST(N'09:42:00' AS Time), CAST(N'18:39:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (52, 18, CAST(N'2025-07-06' AS Date), CAST(N'09:29:00' AS Time), CAST(N'17:05:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (53, 18, CAST(N'2025-07-01' AS Date), CAST(N'08:35:00' AS Time), CAST(N'17:51:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (54, 18, CAST(N'2025-06-27' AS Date), CAST(N'08:12:00' AS Time), CAST(N'17:22:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (55, 19, CAST(N'2025-06-29' AS Date), CAST(N'09:16:00' AS Time), CAST(N'18:51:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (56, 19, CAST(N'2025-06-30' AS Date), CAST(N'09:42:00' AS Time), CAST(N'17:18:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (57, 19, CAST(N'2025-06-28' AS Date), CAST(N'09:25:00' AS Time), CAST(N'17:39:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (58, 20, CAST(N'2025-07-04' AS Date), CAST(N'09:31:00' AS Time), CAST(N'17:15:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (59, 20, CAST(N'2025-07-01' AS Date), CAST(N'08:53:00' AS Time), CAST(N'17:27:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (60, 20, CAST(N'2025-07-01' AS Date), CAST(N'09:58:00' AS Time), CAST(N'17:22:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (61, 21, CAST(N'2025-07-02' AS Date), CAST(N'09:04:00' AS Time), CAST(N'17:26:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (62, 21, CAST(N'2025-06-29' AS Date), CAST(N'09:53:00' AS Time), CAST(N'18:16:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (63, 21, CAST(N'2025-07-02' AS Date), CAST(N'09:50:00' AS Time), CAST(N'18:57:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (64, 22, CAST(N'2025-06-27' AS Date), CAST(N'09:53:00' AS Time), CAST(N'17:17:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (65, 22, CAST(N'2025-07-02' AS Date), CAST(N'08:29:00' AS Time), CAST(N'18:27:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (66, 22, CAST(N'2025-06-29' AS Date), CAST(N'08:07:00' AS Time), CAST(N'17:20:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (67, 23, CAST(N'2025-07-01' AS Date), CAST(N'08:13:00' AS Time), CAST(N'18:51:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (68, 23, CAST(N'2025-07-05' AS Date), CAST(N'09:04:00' AS Time), CAST(N'18:07:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (69, 23, CAST(N'2025-06-30' AS Date), CAST(N'09:50:00' AS Time), CAST(N'18:55:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (70, 24, CAST(N'2025-06-28' AS Date), CAST(N'08:12:00' AS Time), CAST(N'18:54:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (71, 24, CAST(N'2025-07-01' AS Date), CAST(N'09:39:00' AS Time), CAST(N'17:22:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (72, 24, CAST(N'2025-06-29' AS Date), CAST(N'09:40:00' AS Time), CAST(N'18:43:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (73, 25, CAST(N'2025-07-03' AS Date), CAST(N'09:48:00' AS Time), CAST(N'17:12:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (74, 25, CAST(N'2025-07-06' AS Date), CAST(N'09:58:00' AS Time), CAST(N'17:00:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (75, 25, CAST(N'2025-07-04' AS Date), CAST(N'08:26:00' AS Time), CAST(N'18:57:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (76, 26, CAST(N'2025-07-01' AS Date), CAST(N'08:22:00' AS Time), CAST(N'18:40:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (77, 26, CAST(N'2025-06-30' AS Date), CAST(N'09:25:00' AS Time), CAST(N'18:02:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (78, 26, CAST(N'2025-07-06' AS Date), CAST(N'08:47:00' AS Time), CAST(N'17:58:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (79, 27, CAST(N'2025-07-02' AS Date), CAST(N'08:34:00' AS Time), CAST(N'18:13:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (80, 27, CAST(N'2025-07-06' AS Date), CAST(N'09:37:00' AS Time), CAST(N'17:53:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (81, 27, CAST(N'2025-06-29' AS Date), CAST(N'09:03:00' AS Time), CAST(N'18:55:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (82, 28, CAST(N'2025-06-28' AS Date), CAST(N'08:31:00' AS Time), CAST(N'18:28:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (83, 28, CAST(N'2025-07-01' AS Date), CAST(N'08:02:00' AS Time), CAST(N'17:35:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (84, 28, CAST(N'2025-07-01' AS Date), CAST(N'09:36:00' AS Time), CAST(N'18:23:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (85, 29, CAST(N'2025-06-30' AS Date), CAST(N'09:18:00' AS Time), CAST(N'17:09:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (86, 29, CAST(N'2025-07-04' AS Date), CAST(N'09:13:00' AS Time), CAST(N'18:10:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (87, 29, CAST(N'2025-07-02' AS Date), CAST(N'08:24:00' AS Time), CAST(N'18:20:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (88, 30, CAST(N'2025-06-30' AS Date), CAST(N'08:52:00' AS Time), CAST(N'18:19:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (89, 30, CAST(N'2025-06-30' AS Date), CAST(N'09:55:00' AS Time), CAST(N'17:11:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (90, 30, CAST(N'2025-06-29' AS Date), CAST(N'08:04:00' AS Time), CAST(N'17:07:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (91, 31, CAST(N'2025-07-03' AS Date), CAST(N'09:03:00' AS Time), CAST(N'17:07:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (92, 31, CAST(N'2025-07-06' AS Date), CAST(N'08:14:00' AS Time), CAST(N'17:23:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (93, 31, CAST(N'2025-06-29' AS Date), CAST(N'08:04:00' AS Time), CAST(N'17:07:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (94, 32, CAST(N'2025-07-05' AS Date), CAST(N'09:25:00' AS Time), CAST(N'18:38:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (95, 32, CAST(N'2025-06-27' AS Date), CAST(N'08:49:00' AS Time), CAST(N'18:10:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (96, 32, CAST(N'2025-06-29' AS Date), CAST(N'08:59:00' AS Time), CAST(N'18:52:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (97, 33, CAST(N'2025-07-05' AS Date), CAST(N'08:56:00' AS Time), CAST(N'18:35:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (98, 33, CAST(N'2025-07-05' AS Date), CAST(N'08:49:00' AS Time), CAST(N'17:58:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (99, 33, CAST(N'2025-06-28' AS Date), CAST(N'09:55:00' AS Time), CAST(N'18:49:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (100, 34, CAST(N'2025-06-27' AS Date), CAST(N'08:35:00' AS Time), CAST(N'18:18:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (101, 34, CAST(N'2025-07-06' AS Date), CAST(N'09:27:00' AS Time), CAST(N'17:57:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (102, 34, CAST(N'2025-06-29' AS Date), CAST(N'09:29:00' AS Time), CAST(N'18:46:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (103, 35, CAST(N'2025-07-02' AS Date), CAST(N'09:05:00' AS Time), CAST(N'18:51:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (104, 35, CAST(N'2025-07-05' AS Date), CAST(N'08:32:00' AS Time), CAST(N'17:36:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (105, 35, CAST(N'2025-07-03' AS Date), CAST(N'08:16:00' AS Time), CAST(N'17:26:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (106, 36, CAST(N'2025-06-30' AS Date), CAST(N'09:36:00' AS Time), CAST(N'17:12:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (107, 36, CAST(N'2025-07-02' AS Date), CAST(N'08:43:00' AS Time), CAST(N'18:45:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (108, 36, CAST(N'2025-06-29' AS Date), CAST(N'08:49:00' AS Time), CAST(N'17:57:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (109, 37, CAST(N'2025-07-01' AS Date), CAST(N'08:48:00' AS Time), CAST(N'17:26:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (110, 37, CAST(N'2025-07-06' AS Date), CAST(N'09:22:00' AS Time), CAST(N'17:49:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (111, 37, CAST(N'2025-07-03' AS Date), CAST(N'09:59:00' AS Time), CAST(N'18:00:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (112, 38, CAST(N'2025-07-05' AS Date), CAST(N'09:34:00' AS Time), CAST(N'17:25:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (113, 38, CAST(N'2025-07-04' AS Date), CAST(N'08:41:00' AS Time), CAST(N'18:34:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (114, 38, CAST(N'2025-07-02' AS Date), CAST(N'08:13:00' AS Time), CAST(N'17:18:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (115, 39, CAST(N'2025-07-02' AS Date), CAST(N'08:07:00' AS Time), CAST(N'18:54:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (116, 39, CAST(N'2025-07-06' AS Date), CAST(N'09:24:00' AS Time), CAST(N'18:42:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (117, 39, CAST(N'2025-06-29' AS Date), CAST(N'09:15:00' AS Time), CAST(N'17:39:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (118, 40, CAST(N'2025-06-30' AS Date), CAST(N'09:56:00' AS Time), CAST(N'18:54:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (119, 40, CAST(N'2025-07-01' AS Date), CAST(N'09:53:00' AS Time), CAST(N'18:04:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (120, 40, CAST(N'2025-07-03' AS Date), CAST(N'09:57:00' AS Time), CAST(N'18:37:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (121, 41, CAST(N'2025-07-02' AS Date), CAST(N'08:14:00' AS Time), CAST(N'17:06:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (122, 41, CAST(N'2025-06-30' AS Date), CAST(N'08:24:00' AS Time), CAST(N'18:01:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (123, 41, CAST(N'2025-06-29' AS Date), CAST(N'09:09:00' AS Time), CAST(N'18:37:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (124, 42, CAST(N'2025-06-28' AS Date), CAST(N'09:52:00' AS Time), CAST(N'18:51:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (125, 42, CAST(N'2025-07-02' AS Date), CAST(N'09:33:00' AS Time), CAST(N'18:37:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (126, 42, CAST(N'2025-07-04' AS Date), CAST(N'08:55:00' AS Time), CAST(N'18:53:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (127, 43, CAST(N'2025-06-29' AS Date), CAST(N'09:23:00' AS Time), CAST(N'18:41:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (128, 43, CAST(N'2025-07-01' AS Date), CAST(N'09:01:00' AS Time), CAST(N'18:48:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (129, 43, CAST(N'2025-07-01' AS Date), CAST(N'09:22:00' AS Time), CAST(N'18:10:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (130, 44, CAST(N'2025-07-04' AS Date), CAST(N'09:48:00' AS Time), CAST(N'17:25:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (131, 44, CAST(N'2025-07-03' AS Date), CAST(N'09:14:00' AS Time), CAST(N'18:53:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (132, 44, CAST(N'2025-06-27' AS Date), CAST(N'08:53:00' AS Time), CAST(N'18:53:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (133, 45, CAST(N'2025-07-02' AS Date), CAST(N'09:32:00' AS Time), CAST(N'18:50:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (134, 45, CAST(N'2025-06-30' AS Date), CAST(N'08:46:00' AS Time), CAST(N'17:41:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (135, 45, CAST(N'2025-07-01' AS Date), CAST(N'08:07:00' AS Time), CAST(N'18:36:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (136, 46, CAST(N'2025-07-06' AS Date), CAST(N'08:19:00' AS Time), CAST(N'18:42:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (137, 46, CAST(N'2025-06-29' AS Date), CAST(N'09:51:00' AS Time), CAST(N'17:42:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (138, 46, CAST(N'2025-06-29' AS Date), CAST(N'09:17:00' AS Time), CAST(N'17:06:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (139, 47, CAST(N'2025-06-28' AS Date), CAST(N'08:45:00' AS Time), CAST(N'17:26:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (140, 47, CAST(N'2025-06-27' AS Date), CAST(N'08:43:00' AS Time), CAST(N'18:43:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (141, 47, CAST(N'2025-07-03' AS Date), CAST(N'09:01:00' AS Time), CAST(N'17:41:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (142, 48, CAST(N'2025-07-04' AS Date), CAST(N'09:35:00' AS Time), CAST(N'17:21:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (143, 48, CAST(N'2025-07-05' AS Date), CAST(N'09:26:00' AS Time), CAST(N'17:36:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (144, 48, CAST(N'2025-06-28' AS Date), CAST(N'08:48:00' AS Time), CAST(N'17:41:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (145, 49, CAST(N'2025-07-02' AS Date), CAST(N'08:06:00' AS Time), CAST(N'18:55:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (146, 49, CAST(N'2025-07-05' AS Date), CAST(N'09:11:00' AS Time), CAST(N'17:25:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (147, 49, CAST(N'2025-06-28' AS Date), CAST(N'08:34:00' AS Time), CAST(N'17:22:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (148, 50, CAST(N'2025-07-01' AS Date), CAST(N'09:00:00' AS Time), CAST(N'17:46:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (149, 50, CAST(N'2025-07-01' AS Date), CAST(N'09:20:00' AS Time), CAST(N'18:51:00' AS Time))
+GO
+INSERT [dbo].[Attendance] ([AttendanceID], [EmployeeID], [Date], [CheckIn], [CheckOut]) VALUES (150, 50, CAST(N'2025-06-28' AS Date), CAST(N'09:05:00' AS Time), CAST(N'17:52:00' AS Time))
+GO
+SET IDENTITY_INSERT [dbo].[Attendance] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Benefits] ON 
+GO
+INSERT [dbo].[Benefits] ([BenefitID], [BenefitName], [Description]) VALUES (1, N'Health Insurance', N'Health Insurance description')
+GO
+INSERT [dbo].[Benefits] ([BenefitID], [BenefitName], [Description]) VALUES (2, N'Dental', N'Dental description')
+GO
+INSERT [dbo].[Benefits] ([BenefitID], [BenefitName], [Description]) VALUES (3, N'401K', N'401K description')
+GO
+INSERT [dbo].[Benefits] ([BenefitID], [BenefitName], [Description]) VALUES (4, N'Vision', N'Vision description')
+GO
+INSERT [dbo].[Benefits] ([BenefitID], [BenefitName], [Description]) VALUES (5, N'Transport', N'Transport description')
+GO
+SET IDENTITY_INSERT [dbo].[Benefits] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Demotions] ON 
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (1, 26, 3, 3, CAST(N'2024-07-20' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (2, 27, 7, 5, CAST(N'2025-05-05' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (3, 28, 4, 2, CAST(N'2024-11-28' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (4, 29, 1, 9, CAST(N'2024-04-18' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (5, 30, 1, 10, CAST(N'2025-02-06' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (6, 31, 3, 8, CAST(N'2024-04-17' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (7, 32, 8, 7, CAST(N'2025-02-01' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (8, 33, 8, 10, CAST(N'2024-11-23' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (9, 34, 9, 1, CAST(N'2025-04-07' AS Date))
+GO
+INSERT [dbo].[Demotions] ([DemotionID], [EmployeeID], [PreviousJobID], [NewJobID], [DemotionDate]) VALUES (10, 35, 7, 2, CAST(N'2025-04-25' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Demotions] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Departments] ON 
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (1, N'HR')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (2, N'Finance')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (3, N'Engineering')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (4, N'Marketing')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (5, N'Operations')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (6, N'Sales')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (7, N'IT Support')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (8, N'Legal')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (9, N'R&D')
+GO
+INSERT [dbo].[Departments] ([DepartmentID], [Name]) VALUES (10, N'Customer Service')
+GO
+SET IDENTITY_INSERT [dbo].[Departments] OFF
+GO
+SET IDENTITY_INSERT [dbo].[EmergencyContacts] ON 
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (1, 1, N'Contact 1', N'Mother', N'+1-303-417-8355')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (2, 2, N'Contact 2', N'Mother', N'+1-303-382-9894')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (3, 3, N'Contact 3', N'Mother', N'+1-303-813-9331')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (4, 4, N'Contact 4', N'Father', N'+1-303-722-1338')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (5, 5, N'Contact 5', N'Father', N'+1-303-383-6533')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (6, 6, N'Contact 6', N'Mother', N'+1-303-611-7803')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (7, 7, N'Contact 7', N'Sibling', N'+1-303-856-3438')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (8, 8, N'Contact 8', N'Sibling', N'+1-303-810-5319')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (9, 9, N'Contact 9', N'Spouse', N'+1-303-652-8568')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (10, 10, N'Contact 10', N'Sibling', N'+1-303-702-7944')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (11, 11, N'Contact 11', N'Sibling', N'+1-303-627-8736')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (12, 12, N'Contact 12', N'Spouse', N'+1-303-858-3914')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (13, 13, N'Contact 13', N'Mother', N'+1-303-756-1781')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (14, 14, N'Contact 14', N'Father', N'+1-303-402-3664')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (15, 15, N'Contact 15', N'Spouse', N'+1-303-362-3428')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (16, 16, N'Contact 16', N'Sibling', N'+1-303-513-5499')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (17, 17, N'Contact 17', N'Mother', N'+1-303-318-1210')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (18, 18, N'Contact 18', N'Father', N'+1-303-224-7144')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (19, 19, N'Contact 19', N'Spouse', N'+1-303-131-4866')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (20, 20, N'Contact 20', N'Spouse', N'+1-303-238-1575')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (21, 21, N'Contact 21', N'Sibling', N'+1-303-486-5017')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (22, 22, N'Contact 22', N'Father', N'+1-303-738-4445')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (23, 23, N'Contact 23', N'Father', N'+1-303-765-1343')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (24, 24, N'Contact 24', N'Mother', N'+1-303-270-4666')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (25, 25, N'Contact 25', N'Sibling', N'+1-303-316-8650')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (26, 26, N'Contact 26', N'Mother', N'+1-303-246-2063')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (27, 27, N'Contact 27', N'Father', N'+1-303-785-6272')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (28, 28, N'Contact 28', N'Father', N'+1-303-644-7966')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (29, 29, N'Contact 29', N'Sibling', N'+1-303-840-9030')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (30, 30, N'Contact 30', N'Mother', N'+1-303-990-3568')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (31, 31, N'Contact 31', N'Spouse', N'+1-303-705-1562')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (32, 32, N'Contact 32', N'Spouse', N'+1-303-272-8888')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (33, 33, N'Contact 33', N'Father', N'+1-303-960-2544')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (34, 34, N'Contact 34', N'Mother', N'+1-303-684-4931')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (35, 35, N'Contact 35', N'Mother', N'+1-303-455-6013')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (36, 36, N'Contact 36', N'Spouse', N'+1-303-799-7556')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (37, 37, N'Contact 37', N'Father', N'+1-303-433-2378')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (38, 38, N'Contact 38', N'Spouse', N'+1-303-799-6709')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (39, 39, N'Contact 39', N'Father', N'+1-303-494-5535')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (40, 40, N'Contact 40', N'Mother', N'+1-303-220-5710')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (41, 41, N'Contact 41', N'Father', N'+1-303-990-8586')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (42, 42, N'Contact 42', N'Spouse', N'+1-303-305-3548')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (43, 43, N'Contact 43', N'Father', N'+1-303-974-3775')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (44, 44, N'Contact 44', N'Spouse', N'+1-303-206-8680')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (45, 45, N'Contact 45', N'Mother', N'+1-303-724-7472')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (46, 46, N'Contact 46', N'Father', N'+1-303-353-9218')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (47, 47, N'Contact 47', N'Spouse', N'+1-303-136-9057')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (48, 48, N'Contact 48', N'Father', N'+1-303-799-4016')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (49, 49, N'Contact 49', N'Father', N'+1-303-118-3677')
+GO
+INSERT [dbo].[EmergencyContacts] ([ContactID], [EmployeeID], [Name], [Relationship], [Phone]) VALUES (50, 50, N'Contact 50', N'Mother', N'+1-303-364-3558')
+GO
+SET IDENTITY_INSERT [dbo].[EmergencyContacts] OFF
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (1, 1, CAST(N'2025-01-11' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (2, 4, CAST(N'2025-05-19' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (3, 5, CAST(N'2025-04-30' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (4, 3, CAST(N'2025-02-02' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (5, 2, CAST(N'2025-01-02' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (6, 2, CAST(N'2025-03-20' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (7, 1, CAST(N'2025-04-10' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (8, 3, CAST(N'2025-03-23' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (9, 2, CAST(N'2025-05-25' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (10, 4, CAST(N'2025-01-20' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (11, 2, CAST(N'2025-06-03' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (12, 1, CAST(N'2025-04-24' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (13, 2, CAST(N'2024-12-24' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (14, 1, CAST(N'2025-03-09' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (15, 5, CAST(N'2025-01-17' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (16, 4, CAST(N'2025-01-20' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (17, 4, CAST(N'2025-02-23' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (18, 1, CAST(N'2025-04-05' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (19, 5, CAST(N'2025-01-02' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (20, 5, CAST(N'2025-01-20' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (21, 3, CAST(N'2025-04-09' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (22, 2, CAST(N'2025-03-16' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (23, 2, CAST(N'2025-02-01' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (24, 5, CAST(N'2025-01-30' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (25, 2, CAST(N'2025-01-25' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (26, 5, CAST(N'2025-01-28' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (27, 2, CAST(N'2025-02-09' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (28, 1, CAST(N'2025-02-02' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (29, 4, CAST(N'2025-04-19' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (30, 5, CAST(N'2025-05-02' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (31, 1, CAST(N'2025-02-15' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (32, 3, CAST(N'2025-02-15' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (33, 2, CAST(N'2025-05-06' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (34, 5, CAST(N'2025-03-16' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (35, 5, CAST(N'2025-04-17' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (36, 2, CAST(N'2025-02-04' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (37, 1, CAST(N'2025-05-13' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (38, 5, CAST(N'2025-03-14' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (39, 4, CAST(N'2025-01-19' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (40, 3, CAST(N'2025-03-29' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (41, 1, CAST(N'2025-05-10' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (42, 1, CAST(N'2025-03-20' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (43, 4, CAST(N'2025-04-15' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (44, 4, CAST(N'2025-01-02' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (45, 2, CAST(N'2024-12-28' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (46, 1, CAST(N'2025-03-27' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (47, 2, CAST(N'2025-05-02' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (48, 2, CAST(N'2025-05-07' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (49, 5, CAST(N'2025-05-24' AS Date))
+GO
+INSERT [dbo].[EmployeeAssets] ([EmployeeID], [AssetID], [AllocationDate]) VALUES (50, 1, CAST(N'2024-12-30' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (1, 5, CAST(N'2025-01-05' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (2, 4, CAST(N'2024-11-03' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (3, 5, CAST(N'2025-04-18' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (4, 2, CAST(N'2024-12-29' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (5, 5, CAST(N'2025-05-05' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (6, 2, CAST(N'2024-12-12' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (7, 4, CAST(N'2025-03-28' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (8, 5, CAST(N'2024-11-11' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (9, 3, CAST(N'2024-10-11' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (10, 2, CAST(N'2024-11-02' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (11, 2, CAST(N'2025-06-15' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (12, 3, CAST(N'2025-06-13' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (13, 4, CAST(N'2024-10-26' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (14, 4, CAST(N'2025-05-04' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (15, 1, CAST(N'2024-11-09' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (16, 5, CAST(N'2024-12-20' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (17, 2, CAST(N'2025-04-26' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (18, 3, CAST(N'2025-01-12' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (19, 5, CAST(N'2025-02-02' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (20, 3, CAST(N'2025-04-11' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (21, 3, CAST(N'2025-05-01' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (22, 3, CAST(N'2025-01-17' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (23, 3, CAST(N'2024-11-09' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (24, 5, CAST(N'2025-05-19' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (25, 2, CAST(N'2024-11-17' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (26, 4, CAST(N'2025-01-04' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (27, 3, CAST(N'2024-11-04' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (28, 2, CAST(N'2025-05-01' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (29, 4, CAST(N'2025-01-25' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (30, 5, CAST(N'2024-09-18' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (31, 4, CAST(N'2024-10-08' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (32, 2, CAST(N'2024-11-03' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (33, 3, CAST(N'2025-05-27' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (34, 4, CAST(N'2025-02-20' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (35, 2, CAST(N'2024-11-04' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (36, 1, CAST(N'2025-04-26' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (37, 4, CAST(N'2025-04-25' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (38, 3, CAST(N'2024-10-15' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (39, 1, CAST(N'2025-06-24' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (40, 1, CAST(N'2024-12-03' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (41, 4, CAST(N'2025-04-29' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (42, 3, CAST(N'2025-05-11' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (43, 3, CAST(N'2025-03-28' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (44, 5, CAST(N'2025-02-13' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (45, 3, CAST(N'2025-05-10' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (46, 2, CAST(N'2025-05-06' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (47, 2, CAST(N'2025-04-27' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (48, 2, CAST(N'2025-05-11' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (49, 3, CAST(N'2024-10-11' AS Date))
+GO
+INSERT [dbo].[EmployeeBenefits] ([EmployeeID], [BenefitID], [AssignedDate]) VALUES (50, 3, CAST(N'2025-01-19' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (1, 4, CAST(N'2024-12-28' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (2, 2, CAST(N'2024-10-31' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (3, 10, CAST(N'2025-04-26' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (4, 6, CAST(N'2024-09-25' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (5, 3, CAST(N'2024-12-20' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (6, 3, CAST(N'2024-09-24' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (7, 1, CAST(N'2024-07-25' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (8, 7, CAST(N'2025-03-01' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (9, 6, CAST(N'2024-09-20' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (10, 5, CAST(N'2025-01-16' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (11, 9, CAST(N'2025-03-26' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (12, 4, CAST(N'2024-12-22' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (13, 10, CAST(N'2024-08-21' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (14, 7, CAST(N'2024-11-02' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (15, 2, CAST(N'2024-08-07' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (16, 8, CAST(N'2024-12-02' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (17, 7, CAST(N'2024-07-07' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (18, 6, CAST(N'2025-05-23' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (19, 2, CAST(N'2024-09-28' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (20, 8, CAST(N'2025-03-01' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (21, 7, CAST(N'2025-03-08' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (22, 7, CAST(N'2025-01-22' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (23, 5, CAST(N'2024-07-16' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (24, 9, CAST(N'2025-03-02' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (25, 10, CAST(N'2025-02-10' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (26, 2, CAST(N'2024-10-01' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (27, 5, CAST(N'2024-11-13' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (28, 10, CAST(N'2024-09-21' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (29, 4, CAST(N'2025-06-26' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (30, 9, CAST(N'2024-10-26' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (31, 3, CAST(N'2025-03-20' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (32, 9, CAST(N'2025-03-29' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (33, 1, CAST(N'2025-03-22' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (34, 2, CAST(N'2025-07-01' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (35, 8, CAST(N'2025-01-29' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (36, 2, CAST(N'2025-02-24' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (37, 3, CAST(N'2024-08-13' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (38, 5, CAST(N'2024-08-14' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (39, 10, CAST(N'2025-02-14' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (40, 10, CAST(N'2024-08-23' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (41, 6, CAST(N'2025-01-04' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (42, 1, CAST(N'2025-04-18' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (43, 3, CAST(N'2024-12-21' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (44, 5, CAST(N'2024-08-27' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (45, 4, CAST(N'2024-11-28' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (46, 2, CAST(N'2025-06-19' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (47, 5, CAST(N'2024-07-22' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (48, 7, CAST(N'2024-10-10' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (49, 4, CAST(N'2025-06-16' AS Date))
+GO
+INSERT [dbo].[EmployeeProjects] ([EmployeeID], [ProjectID], [AssignedDate]) VALUES (50, 7, CAST(N'2024-09-19' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Employees] ON 
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (1, N'John', N'King', N'john.king1@example.com', N'+1-202-824-3251', CAST(N'2021-04-18' AS Date), 1, 8, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (2, N'Grace', N'Green', N'grace.green2@example.com', N'+1-202-832-7515', CAST(N'2024-10-19' AS Date), 10, 6, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (3, N'John', N'Johnson', N'john.johnson3@example.com', N'+1-202-108-5320', CAST(N'2021-09-04' AS Date), 6, 6, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (4, N'Steve', N'King', N'steve.king4@example.com', N'+1-202-461-1864', CAST(N'2020-02-11' AS Date), 2, 4, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (5, N'Alice', N'Black', N'alice.black5@example.com', N'+1-202-283-7072', CAST(N'2021-10-10' AS Date), 2, 9, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (6, N'Steve', N'Black', N'steve.black6@example.com', N'+1-202-660-9361', CAST(N'2023-12-13' AS Date), 6, 10, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (7, N'Grace', N'Johnson', N'grace.johnson7@example.com', N'+1-202-872-7406', CAST(N'2021-04-21' AS Date), 10, 3, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (8, N'John', N'Lee', N'john.lee8@example.com', N'+1-202-822-6157', CAST(N'2020-12-22' AS Date), 4, 8, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (9, N'David', N'Walker', N'david.walker9@example.com', N'+1-202-167-1367', CAST(N'2022-05-09' AS Date), 7, 5, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (10, N'Steve', N'King', N'steve.king10@example.com', N'+1-202-335-9669', CAST(N'2021-04-04' AS Date), 3, 4, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (11, N'David', N'Walker', N'david.walker11@example.com', N'+1-202-915-8609', CAST(N'2024-10-19' AS Date), 4, 9, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (12, N'Jane', N'Brown', N'jane.brown12@example.com', N'+1-202-390-2256', CAST(N'2023-04-26' AS Date), 9, 1, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (13, N'David', N'Black', N'david.black13@example.com', N'+1-202-656-4434', CAST(N'2021-06-06' AS Date), 3, 5, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (14, N'John', N'Doe', N'john.doe14@example.com', N'+1-202-891-9918', CAST(N'2021-11-11' AS Date), 4, 4, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (15, N'David', N'Lee', N'david.lee15@example.com', N'+1-202-631-1286', CAST(N'2020-11-07' AS Date), 2, 4, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (16, N'David', N'White', N'david.white16@example.com', N'+1-202-715-5782', CAST(N'2024-03-19' AS Date), 3, 2, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (17, N'John', N'Doe', N'john.doe17@example.com', N'+1-202-249-5434', CAST(N'2023-04-06' AS Date), 10, 1, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (18, N'Jane', N'Lee', N'jane.lee18@example.com', N'+1-202-520-8126', CAST(N'2024-09-30' AS Date), 5, 2, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (19, N'Eve', N'Doe', N'eve.doe19@example.com', N'+1-202-354-6118', CAST(N'2020-08-19' AS Date), 3, 4, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (20, N'Grace', N'Smith', N'grace.smith20@example.com', N'+1-202-774-8513', CAST(N'2021-08-20' AS Date), 6, 7, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (21, N'Alice', N'Doe', N'alice.doe21@example.com', N'+1-202-711-6119', CAST(N'2023-08-01' AS Date), 10, 3, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (22, N'Bob', N'King', N'bob.king22@example.com', N'+1-202-285-6971', CAST(N'2021-02-08' AS Date), 7, 7, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (23, N'Bob', N'King', N'bob.king23@example.com', N'+1-202-477-8079', CAST(N'2021-02-21' AS Date), 4, 9, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (24, N'John', N'King', N'john.king24@example.com', N'+1-202-818-2763', CAST(N'2023-10-29' AS Date), 2, 10, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (25, N'Alice', N'Smith', N'alice.smith25@example.com', N'+1-202-499-6025', CAST(N'2022-05-04' AS Date), 5, 6, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (26, N'Alice', N'Lee', N'alice.lee26@example.com', N'+1-202-646-3627', CAST(N'2020-08-24' AS Date), 1, 6, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (27, N'Charlie', N'Black', N'charlie.black27@example.com', N'+1-202-497-9720', CAST(N'2021-07-23' AS Date), 3, 3, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (28, N'David', N'Brown', N'david.brown28@example.com', N'+1-202-904-9598', CAST(N'2023-10-07' AS Date), 4, 5, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (29, N'Steve', N'Black', N'steve.black29@example.com', N'+1-202-478-7567', CAST(N'2020-04-13' AS Date), 5, 7, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (30, N'Laura', N'Doe', N'laura.doe30@example.com', N'+1-202-848-2101', CAST(N'2021-04-24' AS Date), 8, 5, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (31, N'Grace', N'Johnson', N'grace.johnson31@example.com', N'+1-202-459-9429', CAST(N'2023-12-17' AS Date), 5, 3, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (32, N'Bob', N'Smith', N'bob.smith32@example.com', N'+1-202-735-2596', CAST(N'2020-08-25' AS Date), 8, 1, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (33, N'Steve', N'Doe', N'steve.doe33@example.com', N'+1-202-953-5948', CAST(N'2022-03-13' AS Date), 4, 8, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (34, N'John', N'Smith', N'john.smith34@example.com', N'+1-202-794-5797', CAST(N'2023-01-02' AS Date), 2, 10, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (35, N'Alice', N'Brown', N'alice.brown35@example.com', N'+1-202-590-7444', CAST(N'2020-11-16' AS Date), 5, 7, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (36, N'Charlie', N'Doe', N'charlie.doe36@example.com', N'+1-202-833-7853', CAST(N'2024-10-30' AS Date), 4, 1, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (37, N'Steve', N'Doe', N'steve.doe37@example.com', N'+1-202-870-4396', CAST(N'2022-08-11' AS Date), 4, 3, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (38, N'Steve', N'White', N'steve.white38@example.com', N'+1-202-411-9002', CAST(N'2023-01-04' AS Date), 6, 2, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (39, N'John', N'Walker', N'john.walker39@example.com', N'+1-202-448-2506', CAST(N'2023-11-09' AS Date), 2, 6, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (40, N'Grace', N'Doe', N'grace.doe40@example.com', N'+1-202-756-4345', CAST(N'2025-03-05' AS Date), 6, 8, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (41, N'Laura', N'Johnson', N'laura.johnson41@example.com', N'+1-202-829-4604', CAST(N'2022-09-28' AS Date), 4, 5, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (42, N'John', N'White', N'john.white42@example.com', N'+1-202-282-2526', CAST(N'2020-12-24' AS Date), 9, 5, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (43, N'Eve', N'White', N'eve.white43@example.com', N'+1-202-732-6450', CAST(N'2020-08-06' AS Date), 7, 3, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (44, N'Laura', N'Green', N'laura.green44@example.com', N'+1-202-381-1340', CAST(N'2021-05-03' AS Date), 4, 10, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (45, N'Laura', N'Black', N'laura.black45@example.com', N'+1-202-834-7130', CAST(N'2021-06-19' AS Date), 4, 4, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (46, N'David', N'Lee', N'david.lee46@example.com', N'+1-202-103-4402', CAST(N'2024-10-02' AS Date), 9, 9, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (47, N'Alice', N'Lee', N'alice.lee47@example.com', N'+1-202-161-6927', CAST(N'2025-01-31' AS Date), 5, 9, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (48, N'Bob', N'Brown', N'bob.brown48@example.com', N'+1-202-845-5271', CAST(N'2023-09-16' AS Date), 4, 2, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (49, N'Charlie', N'Smith', N'charlie.smith49@example.com', N'+1-202-613-2907', CAST(N'2021-02-24' AS Date), 7, 7, NULL)
+GO
+INSERT [dbo].[Employees] ([EmployeeID], [FirstName], [LastName], [Email], [Phone], [HireDate], [DepartmentID], [JobID], [ManagerID]) VALUES (50, N'Laura', N'Green', N'laura.green50@example.com', N'+1-202-422-1363', CAST(N'2023-11-22' AS Date), 9, 2, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Employees] OFF
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (1, 8, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (1, 10, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (2, 5, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (2, 7, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (3, 2, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (3, 4, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (4, 1, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (4, 4, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (5, 3, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (5, 6, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (6, 4, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (6, 8, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (7, 5, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (7, 7, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (8, 6, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (8, 8, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (9, 6, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (9, 8, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (10, 7, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (10, 10, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (11, 1, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (11, 6, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (12, 1, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (12, 3, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (13, 2, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (13, 10, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (14, 6, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (14, 8, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (15, 2, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (15, 8, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (16, 2, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (16, 5, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (17, 4, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (17, 9, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (18, 8, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (18, 9, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (19, 1, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (19, 7, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (20, 2, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (20, 7, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (21, 1, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (22, 3, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (22, 9, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (23, 6, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (23, 8, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (24, 6, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (24, 8, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (25, 5, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (25, 6, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (26, 1, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (26, 10, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (27, 3, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (28, 1, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (28, 6, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (29, 3, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (30, 9, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (31, 5, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (31, 7, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (32, 2, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (32, 3, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (33, 3, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (34, 4, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (34, 5, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (35, 3, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (35, 4, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (36, 2, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (36, 3, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (37, 7, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (37, 8, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (38, 5, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (38, 7, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (39, 2, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (39, 3, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (40, 6, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (40, 10, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (41, 8, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (41, 10, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (42, 10, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (43, 1, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (43, 10, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (44, 9, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (44, 10, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (45, 7, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (45, 10, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (46, 3, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (46, 10, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (47, 7, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (47, 8, N'Beginner')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (48, 4, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (48, 6, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (49, 10, N'Expert')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (50, 4, N'Intermediate')
+GO
+INSERT [dbo].[EmployeeSkills] ([EmployeeID], [SkillID], [ProficiencyLevel]) VALUES (50, 6, N'Expert')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (1, 5, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (2, 1, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (3, 5, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (4, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (5, 2, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (6, 1, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (7, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (8, 3, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (9, 2, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (10, 1, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (11, 4, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (12, 5, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (13, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (14, 3, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (15, 4, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (16, 4, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (17, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (18, 3, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (19, 3, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (20, 3, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (21, 5, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (22, 5, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (23, 3, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (24, 5, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (25, 3, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (26, 3, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (27, 5, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (28, 1, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (29, 2, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (30, 4, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (31, 3, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (32, 2, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (33, 5, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (34, 4, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (35, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (36, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (37, 1, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (38, 1, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (39, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (40, 5, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (41, 1, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (42, 4, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (43, 3, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (44, 1, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (45, 5, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (46, 4, N'Completed')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (47, 2, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (48, 2, N'Not Started')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (49, 1, N'In Progress')
+GO
+INSERT [dbo].[EmployeeTrainings] ([EmployeeID], [TrainingID], [CompletionStatus]) VALUES (50, 5, N'In Progress')
+GO
+SET IDENTITY_INSERT [dbo].[Jobs] ON 
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (1, N'Software Engineer', CAST(60000.00 AS Decimal(10, 2)), CAST(120000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (2, N'HR Specialist', CAST(40000.00 AS Decimal(10, 2)), CAST(80000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (3, N'Marketing Manager', CAST(70000.00 AS Decimal(10, 2)), CAST(130000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (4, N'Operations Analyst', CAST(50000.00 AS Decimal(10, 2)), CAST(90000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (5, N'Sales Executive', CAST(45000.00 AS Decimal(10, 2)), CAST(85000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (6, N'Finance Analyst', CAST(55000.00 AS Decimal(10, 2)), CAST(95000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (7, N'Support Engineer', CAST(40000.00 AS Decimal(10, 2)), CAST(70000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (8, N'Legal Advisor', CAST(75000.00 AS Decimal(10, 2)), CAST(140000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (9, N'Research Scientist', CAST(80000.00 AS Decimal(10, 2)), CAST(150000.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Jobs] ([JobID], [Title], [MinSalary], [MaxSalary]) VALUES (10, N'Customer Rep', CAST(35000.00 AS Decimal(10, 2)), CAST(60000.00 AS Decimal(10, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[Jobs] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Leaves] ON 
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (1, 1, 2, CAST(N'2025-06-12' AS Date), CAST(N'2025-07-01' AS Date), N'Reason 1', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (2, 2, 3, CAST(N'2025-05-31' AS Date), CAST(N'2025-06-21' AS Date), N'Reason 2', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (3, 3, 4, CAST(N'2025-06-06' AS Date), CAST(N'2025-06-18' AS Date), N'Reason 3', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (4, 4, 5, CAST(N'2025-05-26' AS Date), CAST(N'2025-06-22' AS Date), N'Reason 4', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (5, 5, 2, CAST(N'2025-06-13' AS Date), CAST(N'2025-06-22' AS Date), N'Reason 5', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (6, 6, 1, CAST(N'2025-06-01' AS Date), CAST(N'2025-06-25' AS Date), N'Reason 6', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (7, 7, 2, CAST(N'2025-05-28' AS Date), CAST(N'2025-06-26' AS Date), N'Reason 7', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (8, 8, 5, CAST(N'2025-05-26' AS Date), CAST(N'2025-06-22' AS Date), N'Reason 8', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (9, 9, 2, CAST(N'2025-05-06' AS Date), CAST(N'2025-06-26' AS Date), N'Reason 9', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (10, 10, 5, CAST(N'2025-05-31' AS Date), CAST(N'2025-06-26' AS Date), N'Reason 10', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (11, 11, 3, CAST(N'2025-05-08' AS Date), CAST(N'2025-06-28' AS Date), N'Reason 11', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (12, 12, 4, CAST(N'2025-04-15' AS Date), CAST(N'2025-06-27' AS Date), N'Reason 12', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (13, 13, 1, CAST(N'2025-05-22' AS Date), CAST(N'2025-07-01' AS Date), N'Reason 13', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (14, 14, 3, CAST(N'2025-05-08' AS Date), CAST(N'2025-06-30' AS Date), N'Reason 14', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (15, 15, 3, CAST(N'2025-06-16' AS Date), CAST(N'2025-06-30' AS Date), N'Reason 15', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (16, 16, 2, CAST(N'2025-05-29' AS Date), CAST(N'2025-06-28' AS Date), N'Reason 16', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (17, 17, 1, CAST(N'2025-05-19' AS Date), CAST(N'2025-06-21' AS Date), N'Reason 17', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (18, 18, 1, CAST(N'2025-05-09' AS Date), CAST(N'2025-06-28' AS Date), N'Reason 18', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (19, 19, 2, CAST(N'2025-04-15' AS Date), CAST(N'2025-06-23' AS Date), N'Reason 19', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (20, 20, 3, CAST(N'2025-06-12' AS Date), CAST(N'2025-06-24' AS Date), N'Reason 20', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (21, 21, 5, CAST(N'2025-04-10' AS Date), CAST(N'2025-06-20' AS Date), N'Reason 21', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (22, 22, 3, CAST(N'2025-04-16' AS Date), CAST(N'2025-06-28' AS Date), N'Reason 22', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (23, 23, 1, CAST(N'2025-04-04' AS Date), CAST(N'2025-06-29' AS Date), N'Reason 23', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (24, 24, 3, CAST(N'2025-06-15' AS Date), CAST(N'2025-06-25' AS Date), N'Reason 24', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (25, 25, 4, CAST(N'2025-04-18' AS Date), CAST(N'2025-06-21' AS Date), N'Reason 25', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (26, 26, 3, CAST(N'2025-05-28' AS Date), CAST(N'2025-06-18' AS Date), N'Reason 26', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (27, 27, 1, CAST(N'2025-05-18' AS Date), CAST(N'2025-06-21' AS Date), N'Reason 27', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (28, 28, 3, CAST(N'2025-04-03' AS Date), CAST(N'2025-07-02' AS Date), N'Reason 28', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (29, 29, 1, CAST(N'2025-04-18' AS Date), CAST(N'2025-06-23' AS Date), N'Reason 29', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (30, 30, 3, CAST(N'2025-04-28' AS Date), CAST(N'2025-06-28' AS Date), N'Reason 30', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (31, 31, 4, CAST(N'2025-05-03' AS Date), CAST(N'2025-06-29' AS Date), N'Reason 31', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (32, 32, 1, CAST(N'2025-04-02' AS Date), CAST(N'2025-06-23' AS Date), N'Reason 32', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (33, 33, 5, CAST(N'2025-06-10' AS Date), CAST(N'2025-06-18' AS Date), N'Reason 33', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (34, 34, 5, CAST(N'2025-05-25' AS Date), CAST(N'2025-06-23' AS Date), N'Reason 34', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (35, 35, 3, CAST(N'2025-04-24' AS Date), CAST(N'2025-06-27' AS Date), N'Reason 35', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (36, 36, 4, CAST(N'2025-03-30' AS Date), CAST(N'2025-06-22' AS Date), N'Reason 36', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (37, 37, 3, CAST(N'2025-06-15' AS Date), CAST(N'2025-06-24' AS Date), N'Reason 37', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (38, 38, 3, CAST(N'2025-05-10' AS Date), CAST(N'2025-06-24' AS Date), N'Reason 38', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (39, 39, 5, CAST(N'2025-05-30' AS Date), CAST(N'2025-06-21' AS Date), N'Reason 39', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (40, 40, 5, CAST(N'2025-04-14' AS Date), CAST(N'2025-07-02' AS Date), N'Reason 40', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (41, 41, 4, CAST(N'2025-04-21' AS Date), CAST(N'2025-06-21' AS Date), N'Reason 41', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (42, 42, 1, CAST(N'2025-06-17' AS Date), CAST(N'2025-06-19' AS Date), N'Reason 42', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (43, 43, 3, CAST(N'2025-05-25' AS Date), CAST(N'2025-06-18' AS Date), N'Reason 43', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (44, 44, 3, CAST(N'2025-05-05' AS Date), CAST(N'2025-06-20' AS Date), N'Reason 44', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (45, 45, 4, CAST(N'2025-04-25' AS Date), CAST(N'2025-06-26' AS Date), N'Reason 45', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (46, 46, 4, CAST(N'2025-05-14' AS Date), CAST(N'2025-07-01' AS Date), N'Reason 46', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (47, 47, 3, CAST(N'2025-04-22' AS Date), CAST(N'2025-06-21' AS Date), N'Reason 47', N'Approved')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (48, 48, 5, CAST(N'2025-04-30' AS Date), CAST(N'2025-06-30' AS Date), N'Reason 48', N'Rejected')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (49, 49, 5, CAST(N'2025-04-27' AS Date), CAST(N'2025-06-24' AS Date), N'Reason 49', N'Pending')
+GO
+INSERT [dbo].[Leaves] ([LeaveID], [EmployeeID], [LeaveTypeID], [StartDate], [EndDate], [Reason], [Status]) VALUES (50, 50, 2, CAST(N'2025-06-08' AS Date), CAST(N'2025-06-28' AS Date), N'Reason 50', N'Pending')
+GO
+SET IDENTITY_INSERT [dbo].[Leaves] OFF
+GO
+SET IDENTITY_INSERT [dbo].[LeaveTypes] ON 
+GO
+INSERT [dbo].[LeaveTypes] ([LeaveTypeID], [LeaveName]) VALUES (1, N'Sick')
+GO
+INSERT [dbo].[LeaveTypes] ([LeaveTypeID], [LeaveName]) VALUES (2, N'Vacation')
+GO
+INSERT [dbo].[LeaveTypes] ([LeaveTypeID], [LeaveName]) VALUES (3, N'Maternity')
+GO
+INSERT [dbo].[LeaveTypes] ([LeaveTypeID], [LeaveName]) VALUES (4, N'Paternity')
+GO
+INSERT [dbo].[LeaveTypes] ([LeaveTypeID], [LeaveName]) VALUES (5, N'Unpaid')
+GO
+SET IDENTITY_INSERT [dbo].[LeaveTypes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Projects] ON 
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (1, N'Project A', CAST(N'2025-03-29' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (2, N'Project B', CAST(N'2024-12-19' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (3, N'Project C', CAST(N'2024-09-10' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (4, N'Project D', CAST(N'2024-06-02' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (5, N'Project E', CAST(N'2024-02-23' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (6, N'Project F', CAST(N'2023-11-15' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (7, N'Project G', CAST(N'2023-08-07' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (8, N'Project H', CAST(N'2023-04-29' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (9, N'Project I', CAST(N'2023-01-19' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+INSERT [dbo].[Projects] ([ProjectID], [Name], [StartDate], [EndDate]) VALUES (10, N'Project J', CAST(N'2022-10-11' AS Date), CAST(N'2025-10-05' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Projects] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Promotions] ON 
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (1, 1, 6, 6, CAST(N'2025-02-03' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (2, 2, 10, 1, CAST(N'2025-05-04' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (3, 3, 8, 1, CAST(N'2025-01-05' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (4, 4, 9, 7, CAST(N'2025-03-30' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (5, 5, 7, 9, CAST(N'2025-04-01' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (6, 6, 2, 9, CAST(N'2025-02-21' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (7, 7, 5, 9, CAST(N'2024-10-11' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (8, 8, 8, 9, CAST(N'2024-10-25' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (9, 9, 2, 3, CAST(N'2024-06-16' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (10, 10, 9, 10, CAST(N'2025-01-15' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (11, 11, 8, 1, CAST(N'2025-02-11' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (12, 12, 9, 2, CAST(N'2024-03-13' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (13, 13, 1, 3, CAST(N'2025-05-25' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (14, 14, 3, 7, CAST(N'2025-02-23' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (15, 15, 5, 2, CAST(N'2025-06-04' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (16, 16, 1, 4, CAST(N'2024-08-10' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (17, 17, 10, 2, CAST(N'2024-09-09' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (18, 18, 2, 10, CAST(N'2024-07-27' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (19, 19, 1, 1, CAST(N'2024-12-18' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (20, 20, 1, 4, CAST(N'2025-02-25' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (21, 21, 10, 9, CAST(N'2024-03-24' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (22, 22, 8, 7, CAST(N'2024-05-02' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (23, 23, 3, 9, CAST(N'2024-04-28' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (24, 24, 8, 3, CAST(N'2025-03-09' AS Date))
+GO
+INSERT [dbo].[Promotions] ([PromotionID], [EmployeeID], [PreviousJobID], [NewJobID], [PromotionDate]) VALUES (25, 25, 10, 3, CAST(N'2025-03-14' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Promotions] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Resignations] ON 
+GO
+INSERT [dbo].[Resignations] ([ResignationID], [EmployeeID], [ResignationDate], [Reason], [ApprovedBy]) VALUES (1, 45, CAST(N'2025-06-22' AS Date), N'Left for opportunity', 7)
+GO
+INSERT [dbo].[Resignations] ([ResignationID], [EmployeeID], [ResignationDate], [Reason], [ApprovedBy]) VALUES (2, 46, CAST(N'2025-06-03' AS Date), N'Left for opportunity', 7)
+GO
+INSERT [dbo].[Resignations] ([ResignationID], [EmployeeID], [ResignationDate], [Reason], [ApprovedBy]) VALUES (3, 47, CAST(N'2025-05-30' AS Date), N'Left for opportunity', 10)
+GO
+INSERT [dbo].[Resignations] ([ResignationID], [EmployeeID], [ResignationDate], [Reason], [ApprovedBy]) VALUES (4, 48, CAST(N'2025-04-22' AS Date), N'Left for opportunity', 6)
+GO
+INSERT [dbo].[Resignations] ([ResignationID], [EmployeeID], [ResignationDate], [Reason], [ApprovedBy]) VALUES (5, 49, CAST(N'2025-04-21' AS Date), N'Left for opportunity', 2)
+GO
+INSERT [dbo].[Resignations] ([ResignationID], [EmployeeID], [ResignationDate], [Reason], [ApprovedBy]) VALUES (6, 50, CAST(N'2025-04-13' AS Date), N'Left for opportunity', 5)
+GO
+SET IDENTITY_INSERT [dbo].[Resignations] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ReviewRatings] ON 
+GO
+INSERT [dbo].[ReviewRatings] ([RatingID], [RatingName], [Description]) VALUES (1, N'Excellent', N'Excellent performance')
+GO
+INSERT [dbo].[ReviewRatings] ([RatingID], [RatingName], [Description]) VALUES (2, N'Good', N'Good performance')
+GO
+INSERT [dbo].[ReviewRatings] ([RatingID], [RatingName], [Description]) VALUES (3, N'Average', N'Average performance')
+GO
+INSERT [dbo].[ReviewRatings] ([RatingID], [RatingName], [Description]) VALUES (4, N'Poor', N'Poor performance')
+GO
+SET IDENTITY_INSERT [dbo].[ReviewRatings] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Reviews] ON 
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (1, 1, 32, CAST(N'2024-10-08' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (2, 2, 21, CAST(N'2024-11-03' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (3, 3, 31, CAST(N'2024-09-26' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (4, 4, 11, CAST(N'2025-02-22' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (5, 5, 33, CAST(N'2025-01-06' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (6, 6, 27, CAST(N'2025-03-07' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (7, 7, 23, CAST(N'2025-05-20' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (8, 8, 20, CAST(N'2025-05-25' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (9, 9, 2, CAST(N'2024-11-25' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (10, 10, 10, CAST(N'2024-12-11' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (11, 11, 50, CAST(N'2024-12-14' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (12, 12, 48, CAST(N'2025-02-17' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (13, 13, 38, CAST(N'2024-10-24' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (14, 14, 13, CAST(N'2024-12-13' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (15, 15, 24, CAST(N'2025-01-28' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (16, 16, 8, CAST(N'2025-04-06' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (17, 17, 30, CAST(N'2024-11-23' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (18, 18, 2, CAST(N'2025-02-25' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (19, 19, 20, CAST(N'2025-03-15' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (20, 20, 1, CAST(N'2024-10-01' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (21, 21, 45, CAST(N'2025-05-02' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (22, 22, 13, CAST(N'2024-12-24' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (23, 23, 17, CAST(N'2025-02-08' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (24, 24, 26, CAST(N'2025-06-15' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (25, 25, 11, CAST(N'2025-06-25' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (26, 26, 34, CAST(N'2024-10-07' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (27, 27, 32, CAST(N'2024-11-04' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (28, 28, 1, CAST(N'2025-01-15' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (29, 29, 36, CAST(N'2024-12-21' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (30, 30, 17, CAST(N'2025-04-01' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (31, 31, 42, CAST(N'2024-09-24' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (32, 32, 13, CAST(N'2025-04-12' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (33, 33, 26, CAST(N'2024-12-29' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (34, 34, 12, CAST(N'2025-03-03' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (35, 35, 2, CAST(N'2025-05-19' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (36, 36, 9, CAST(N'2025-01-06' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (37, 37, 27, CAST(N'2024-09-17' AS Date), N'Feedback', 4)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (38, 38, 4, CAST(N'2025-03-28' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (39, 39, 14, CAST(N'2024-12-17' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (40, 40, 12, CAST(N'2025-02-26' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (41, 41, 37, CAST(N'2025-01-29' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (42, 42, 1, CAST(N'2025-04-18' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (43, 43, 28, CAST(N'2024-10-29' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (44, 44, 11, CAST(N'2025-02-27' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (45, 45, 36, CAST(N'2025-05-09' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (46, 46, 15, CAST(N'2025-06-01' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (47, 47, 5, CAST(N'2025-03-09' AS Date), N'Feedback', 1)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (48, 48, 9, CAST(N'2025-06-11' AS Date), N'Feedback', 2)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (49, 49, 10, CAST(N'2025-02-28' AS Date), N'Feedback', 3)
+GO
+INSERT [dbo].[Reviews] ([ReviewID], [EmployeeID], [ReviewerID], [ReviewDate], [Comments], [RatingID]) VALUES (50, 50, 14, CAST(N'2024-11-12' AS Date), N'Feedback', 3)
+GO
+SET IDENTITY_INSERT [dbo].[Reviews] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Salaries] ON 
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (1, 1, CAST(81331.00 AS Decimal(10, 2)), CAST(N'2023-12-27' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (2, 2, CAST(123191.00 AS Decimal(10, 2)), CAST(N'2025-01-16' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (3, 3, CAST(52915.00 AS Decimal(10, 2)), CAST(N'2024-08-29' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (4, 4, CAST(119841.00 AS Decimal(10, 2)), CAST(N'2023-01-10' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (5, 5, CAST(84685.00 AS Decimal(10, 2)), CAST(N'2024-05-27' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (6, 6, CAST(117539.00 AS Decimal(10, 2)), CAST(N'2025-01-09' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (7, 7, CAST(107413.00 AS Decimal(10, 2)), CAST(N'2025-05-06' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (8, 8, CAST(47862.00 AS Decimal(10, 2)), CAST(N'2025-05-13' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (9, 9, CAST(61421.00 AS Decimal(10, 2)), CAST(N'2025-03-02' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (10, 10, CAST(95590.00 AS Decimal(10, 2)), CAST(N'2023-01-10' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (11, 11, CAST(125863.00 AS Decimal(10, 2)), CAST(N'2024-08-29' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (12, 12, CAST(77205.00 AS Decimal(10, 2)), CAST(N'2024-02-09' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (13, 13, CAST(129703.00 AS Decimal(10, 2)), CAST(N'2023-10-29' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (14, 14, CAST(139038.00 AS Decimal(10, 2)), CAST(N'2024-05-14' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (15, 15, CAST(53513.00 AS Decimal(10, 2)), CAST(N'2024-08-30' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (16, 16, CAST(97696.00 AS Decimal(10, 2)), CAST(N'2025-03-11' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (17, 17, CAST(72792.00 AS Decimal(10, 2)), CAST(N'2024-09-17' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (18, 18, CAST(44979.00 AS Decimal(10, 2)), CAST(N'2024-03-26' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (19, 19, CAST(112964.00 AS Decimal(10, 2)), CAST(N'2025-04-09' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (20, 20, CAST(78999.00 AS Decimal(10, 2)), CAST(N'2024-01-28' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (21, 21, CAST(78211.00 AS Decimal(10, 2)), CAST(N'2025-05-03' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (22, 22, CAST(86641.00 AS Decimal(10, 2)), CAST(N'2024-11-16' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (23, 23, CAST(105966.00 AS Decimal(10, 2)), CAST(N'2024-04-08' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (24, 24, CAST(99330.00 AS Decimal(10, 2)), CAST(N'2024-04-25' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (25, 25, CAST(53263.00 AS Decimal(10, 2)), CAST(N'2024-04-29' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (26, 26, CAST(42352.00 AS Decimal(10, 2)), CAST(N'2023-11-19' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (27, 27, CAST(105788.00 AS Decimal(10, 2)), CAST(N'2023-10-29' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (28, 28, CAST(82914.00 AS Decimal(10, 2)), CAST(N'2024-04-20' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (29, 29, CAST(49342.00 AS Decimal(10, 2)), CAST(N'2024-03-30' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (30, 30, CAST(51999.00 AS Decimal(10, 2)), CAST(N'2024-04-20' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (31, 31, CAST(56021.00 AS Decimal(10, 2)), CAST(N'2023-02-08' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (32, 32, CAST(87135.00 AS Decimal(10, 2)), CAST(N'2024-10-11' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (33, 33, CAST(105014.00 AS Decimal(10, 2)), CAST(N'2023-04-21' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (34, 34, CAST(61119.00 AS Decimal(10, 2)), CAST(N'2025-05-17' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (35, 35, CAST(90659.00 AS Decimal(10, 2)), CAST(N'2024-09-27' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (36, 36, CAST(66603.00 AS Decimal(10, 2)), CAST(N'2024-04-24' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (37, 37, CAST(51087.00 AS Decimal(10, 2)), CAST(N'2023-01-21' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (38, 38, CAST(109774.00 AS Decimal(10, 2)), CAST(N'2023-09-30' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (39, 39, CAST(43150.00 AS Decimal(10, 2)), CAST(N'2023-04-18' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (40, 40, CAST(50954.00 AS Decimal(10, 2)), CAST(N'2023-08-22' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (41, 41, CAST(116402.00 AS Decimal(10, 2)), CAST(N'2025-03-17' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (42, 42, CAST(76406.00 AS Decimal(10, 2)), CAST(N'2022-12-04' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (43, 43, CAST(63607.00 AS Decimal(10, 2)), CAST(N'2024-09-14' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (44, 44, CAST(41458.00 AS Decimal(10, 2)), CAST(N'2023-05-09' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (45, 45, CAST(109482.00 AS Decimal(10, 2)), CAST(N'2024-01-07' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (46, 46, CAST(102814.00 AS Decimal(10, 2)), CAST(N'2024-06-24' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (47, 47, CAST(70141.00 AS Decimal(10, 2)), CAST(N'2025-04-26' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (48, 48, CAST(53214.00 AS Decimal(10, 2)), CAST(N'2023-10-02' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (49, 49, CAST(136439.00 AS Decimal(10, 2)), CAST(N'2025-01-21' AS Date), NULL)
+GO
+INSERT [dbo].[Salaries] ([SalaryID], [EmployeeID], [Amount], [EffectiveFrom], [EffectiveTo]) VALUES (50, 50, CAST(63285.00 AS Decimal(10, 2)), CAST(N'2024-11-29' AS Date), NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Salaries] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Skills] ON 
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (1, N'Python')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (2, N'C#')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (3, N'JavaScript')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (4, N'SQL')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (5, N'Communication')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (6, N'Leadership')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (7, N'Excel')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (8, N'Data Analysis')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (9, N'Project Mgmt')
+GO
+INSERT [dbo].[Skills] ([SkillID], [SkillName]) VALUES (10, N'Cloud')
+GO
+SET IDENTITY_INSERT [dbo].[Skills] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Trainings] ON 
+GO
+INSERT [dbo].[Trainings] ([TrainingID], [TrainingName], [Description], [StartDate], [EndDate]) VALUES (1, N'Training 1', N'Training Description', CAST(N'2024-12-24' AS Date), CAST(N'2025-04-06' AS Date))
+GO
+INSERT [dbo].[Trainings] ([TrainingID], [TrainingName], [Description], [StartDate], [EndDate]) VALUES (2, N'Training 2', N'Training Description', CAST(N'2024-12-18' AS Date), CAST(N'2025-06-25' AS Date))
+GO
+INSERT [dbo].[Trainings] ([TrainingID], [TrainingName], [Description], [StartDate], [EndDate]) VALUES (3, N'Training 3', N'Training Description', CAST(N'2025-03-24' AS Date), CAST(N'2025-05-18' AS Date))
+GO
+INSERT [dbo].[Trainings] ([TrainingID], [TrainingName], [Description], [StartDate], [EndDate]) VALUES (4, N'Training 4', N'Training Description', CAST(N'2024-10-04' AS Date), CAST(N'2025-04-11' AS Date))
+GO
+INSERT [dbo].[Trainings] ([TrainingID], [TrainingName], [Description], [StartDate], [EndDate]) VALUES (5, N'Training 5', N'Training Description', CAST(N'2024-11-27' AS Date), CAST(N'2025-05-04' AS Date))
+GO
+SET IDENTITY_INSERT [dbo].[Trainings] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__Employee__A9D1053428932E22]    Script Date: 08-07-2025 19:18:46 ******/
+ALTER TABLE [dbo].[Employees] ADD UNIQUE NONCLUSTERED 
+(
+	[Email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Attendance]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[Demotions]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[EmergencyContacts]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[EmployeeAssets]  WITH CHECK ADD FOREIGN KEY([AssetID])
+REFERENCES [dbo].[Assets] ([AssetID])
+GO
+ALTER TABLE [dbo].[EmployeeAssets]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[EmployeeBenefits]  WITH CHECK ADD FOREIGN KEY([BenefitID])
+REFERENCES [dbo].[Benefits] ([BenefitID])
+GO
+ALTER TABLE [dbo].[EmployeeBenefits]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[EmployeeProjects]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[EmployeeProjects]  WITH CHECK ADD FOREIGN KEY([ProjectID])
+REFERENCES [dbo].[Projects] ([ProjectID])
+GO
+ALTER TABLE [dbo].[Employees]  WITH CHECK ADD FOREIGN KEY([DepartmentID])
+REFERENCES [dbo].[Departments] ([DepartmentID])
+GO
+ALTER TABLE [dbo].[Employees]  WITH CHECK ADD FOREIGN KEY([JobID])
+REFERENCES [dbo].[Jobs] ([JobID])
+GO
+ALTER TABLE [dbo].[EmployeeSkills]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[EmployeeSkills]  WITH CHECK ADD FOREIGN KEY([SkillID])
+REFERENCES [dbo].[Skills] ([SkillID])
+GO
+ALTER TABLE [dbo].[EmployeeTrainings]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[EmployeeTrainings]  WITH CHECK ADD FOREIGN KEY([TrainingID])
+REFERENCES [dbo].[Trainings] ([TrainingID])
+GO
+ALTER TABLE [dbo].[Leaves]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[Leaves]  WITH CHECK ADD FOREIGN KEY([LeaveTypeID])
+REFERENCES [dbo].[LeaveTypes] ([LeaveTypeID])
+GO
+ALTER TABLE [dbo].[Promotions]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[Resignations]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[Reviews]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[Reviews]  WITH CHECK ADD FOREIGN KEY([RatingID])
+REFERENCES [dbo].[ReviewRatings] ([RatingID])
+GO
+ALTER TABLE [dbo].[Salaries]  WITH CHECK ADD FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employees] ([EmployeeID])
+GO
+USE [master]
+GO
+ALTER DATABASE [EmployeeManagementDB] SET  READ_WRITE 
+GO
