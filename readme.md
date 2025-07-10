@@ -1,12 +1,6 @@
 # Local LLM with RAG
 
-<p align="center">
-    <img src="images/wizard_experimenting.jpg" alt="A wizard experimenting - Leonardo AI" width="600">
-</p>
-
 This project is an experimental sandbox for testing out ideas related to running local Large Language Models (LLMs) with [Ollama](https://ollama.ai/) to perform Retrieval-Augmented Generation (RAG) for answering questions based on sample PDFs. In this project, we are also using Ollama to create embeddings with the [nomic-embed-text](https://ollama.com/library/nomic-embed-text) to use with [Chroma](https://docs.trychroma.com/). Please note that the embeddings are reloaded each time the application runs, which is not efficient and is only done here for testing purposes.
-
-[![asciicast](https://asciinema.org/a/fepTvXf1UiDpRUhhNiswL8isu.svg)](https://asciinema.org/a/fepTvXf1UiDpRUhhNiswL8isu)
 
 There is also a web UI created using [Streamlit](https://streamlit.io/) to provide a different way to interact with Ollama.
 
@@ -47,3 +41,4 @@ This will start a local web server and open a new tab in your default web browse
 - [PyPDF](https://pypi.org/project/PyPDF2/): A Python library for reading and manipulating PDF files.
 - [Streamlit](https://streamlit.io/): A web framework for creating interactive applications for machine learning and data science projects.
 - [UV](https://astral.sh/uv): A fast and efficient Python package installer and resolver.
+- SQL Server
